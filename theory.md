@@ -2,13 +2,13 @@ Exercise 2 - Theory questions
 -----------------------------
 
 ### What is an atomic operation?
-> *Your answer here*
+> *An atomic operation is a operation that can not be blocked, it is beeing executed in full befor beeing interupted. *
 
 ### What is a critical section?
-> *Your answer here*
+> *A critical section is a proteced region where only one process can be executet at once, nothing happens in parallel. *
 
 ### What is the difference between race conditions and data races?
-> *Your answer here*
+> *A race condition is when a operation depends on interleaving of other operations. A data races is when to threads is trying to change the same variable.*
 
 ### What are the differences between semaphores, binary semaphores, and mutexes?
 > *Your answer here*
