@@ -7,39 +7,43 @@ import (
 	"runtime"
 )
 
-func number_server(add <-chan int, sub <-chan int, read chan<- int) {
-	var number = 0
 
-	// This for-select pattern is one you will become familiar with...
-	for {
-		select {
-        }
-	}
-}
 
-func incrementer(add chan<- int, finished chan<- bool) {
+func incrementer(acess chan int, finished chan<- bool, i *int) {
+	
 	for j := 0; j < 1000000; j++ {
-		add <- 1
+		turn :=<-acess
+		(*i)--
+		acess <-turn
 	}
 	//TODO: signal that the goroutine is finished
+	finished <- true
 }
 
-func decrementer(sub chan<- int, finished chan<- bool) {
+func decrementer(acess chan int, finished chan<- bool,i *int) {
+	
 	for j := 0; j < 1000000+1; j++ {
-		sub <- 1
+		turn :=<-acess
+		(*i)--
+		acess <-turn
 	}
 	//TODO: signal that the goroutine is finished
+	finished <- true
 }
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	// TODO: Construct the remaining channels
-	read := make(chan int)
-
+	acess := make(chan int,1)
+	finished := make(chan bool)
+	i :=0
+	acess <-1
+	go incrementer(acess,finished,&i)
+	go decrementer(acess,finished, &i)
 	// TODO: Spawn the required goroutines
 
 	// TODO: block on finished from both "worker" goroutines
 
-	fmt.Println("The magic number is:", <-read)
+	fmt.Println("The magic number is:", i)
 }
